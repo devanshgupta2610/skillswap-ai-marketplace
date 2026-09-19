@@ -28,6 +28,16 @@ from app.models.enums import (
 )
 
 
+def pg_enum(enum_cls):
+    """Persist enum member names so they match native Postgres ENUM labels."""
+    return Enum(
+        enum_cls,
+        name=enum_cls.__name__.lower(),
+        values_callable=lambda members: [member.name for member in members],
+        native_enum=True,
+    )
+
+
 class TimestampMixin:
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(
@@ -42,7 +52,7 @@ class User(Base, TimestampMixin):
     email: Mapped[str] = mapped_column(String(255), unique=True, index=True, nullable=False)
     hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
     full_name: Mapped[str] = mapped_column(String(200), nullable=False)
-    role: Mapped[UserRole] = mapped_column(Enum(UserRole), nullable=False)
+    role: Mapped[UserRole] = mapped_column(pg_enum(UserRole), nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     avatar_url: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
 
@@ -141,7 +151,7 @@ class Gig(Base, TimestampMixin):
     tags: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     price: Mapped[float] = mapped_column(Float, nullable=False)
     delivery_days: Mapped[int] = mapped_column(Integer, default=7)
-    status: Mapped[GigStatus] = mapped_column(Enum(GigStatus), default=GigStatus.ACTIVE)
+    status: Mapped[GigStatus] = mapped_column(pg_enum(GigStatus), default=GigStatus.ACTIVE)
     image_url: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
     views: Mapped[int] = mapped_column(Integer, default=0)
     orders_count: Mapped[int] = mapped_column(Integer, default=0)
@@ -162,7 +172,7 @@ class Job(Base, TimestampMixin):
     budget_min: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     budget_max: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     category: Mapped[str] = mapped_column(String(100), nullable=False, index=True)
-    status: Mapped[JobStatus] = mapped_column(Enum(JobStatus), default=JobStatus.OPEN)
+    status: Mapped[JobStatus] = mapped_column(pg_enum(JobStatus), default=JobStatus.OPEN)
     deadline: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
 
     client: Mapped["ClientProfile"] = relationship(back_populates="jobs")
@@ -181,7 +191,7 @@ class Booking(Base, TimestampMixin):
     title: Mapped[str] = mapped_column(String(200), nullable=False)
     description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     amount: Mapped[float] = mapped_column(Float, nullable=False)
-    status: Mapped[BookingStatus] = mapped_column(Enum(BookingStatus), default=BookingStatus.PENDING)
+    status: Mapped[BookingStatus] = mapped_column(pg_enum(BookingStatus), default=BookingStatus.PENDING)
     delivery_notes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     delivery_url: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
 
@@ -204,7 +214,7 @@ class Milestone(Base, TimestampMixin):
     description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     amount: Mapped[float] = mapped_column(Float, nullable=False)
     due_date: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
-    status: Mapped[MilestoneStatus] = mapped_column(Enum(MilestoneStatus), default=MilestoneStatus.PENDING)
+    status: Mapped[MilestoneStatus] = mapped_column(pg_enum(MilestoneStatus), default=MilestoneStatus.PENDING)
     order_index: Mapped[int] = mapped_column(Integer, default=0)
 
     booking: Mapped["Booking"] = relationship(back_populates="milestones")
@@ -244,7 +254,7 @@ class Notification(Base, TimestampMixin):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
-    type: Mapped[NotificationType] = mapped_column(Enum(NotificationType), default=NotificationType.SYSTEM)
+    type: Mapped[NotificationType] = mapped_column(pg_enum(NotificationType), default=NotificationType.SYSTEM)
     title: Mapped[str] = mapped_column(String(200), nullable=False)
     body: Mapped[str] = mapped_column(Text, nullable=False)
     link: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
