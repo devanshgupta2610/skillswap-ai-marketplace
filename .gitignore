@@ -1,0 +1,32 @@
+# Bytecode / caches
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+*.db
+.mypy_cache/
+.pytest_cache/
+
+# Node
+node_modules/
+dist/
+.DS_Store
+*.log
+.env.local
+frontend/.env
+backend/.env
+
+# Local uploads / generated
+backend/skillswap.db
+frontend/dist/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+Thumbs.db
