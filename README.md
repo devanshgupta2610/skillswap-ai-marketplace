@@ -10,11 +10,21 @@ Showcase skills with an AI Portfolio Builder, get matched with clients via trust
 
 ## Screenshots
 
-| Landing | Creator Dashboard | AI Match |
+| Landing | Creator Dashboard | AI Talent Match |
 | --- | --- | --- |
-| ![Landing placeholder](docs/screenshots/landing.png) | ![Dashboard placeholder](docs/screenshots/creator-dashboard.png) | ![Match placeholder](docs/screenshots/talent-match.png) |
+| ![Landing](docs/screenshots/landing.png) | ![Creator dashboard](docs/screenshots/creator-dashboard.png) | ![Talent match](docs/screenshots/talent-match.png) |
 
-*(Add screenshots under `docs/screenshots/` after local run.)*
+| Login | Register | AI Portfolio Builder |
+| --- | --- | --- |
+| ![Login](docs/screenshots/login.png) | ![Register](docs/screenshots/register.png) | ![AI builder](docs/screenshots/ai-builder.png) |
+
+| Portfolio | Gigs | Bookings |
+| --- | --- | --- |
+| ![Portfolio](docs/screenshots/portfolio.png) | ![Gigs](docs/screenshots/gigs.png) | ![Bookings](docs/screenshots/bookings.png) |
+
+| Client Dashboard | Browse Creators | Gig Marketplace |
+| --- | --- | --- |
+| ![Client dashboard](docs/screenshots/client-dashboard.png) | ![Browse creators](docs/screenshots/browse-creators.png) | ![Marketplace](docs/screenshots/marketplace.png) |
 
 ---
 
